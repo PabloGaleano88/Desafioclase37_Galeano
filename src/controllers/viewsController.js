@@ -18,14 +18,15 @@ export const getProductsJson = async (req, res) => {
 
 export const getProducts = async (req, res) => {
     const { limit, page, sort, query } = req.query
-    const { first_name, last_name, email, age, cartId, admin } = req.session
+    const { first_name, last_name, email, age, cartId, admin , role } = req.session
+    const premium = role === "premium"
     const result = await productManager.getAll(query, limit, page, sort)
     if (!page) {
         const prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}&limit=${result.limit}` : false
         const nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}&limit=${result.limit}` : false
         const products = result.payload
 
-        res.render('products', { products, prevLink, nextLink, first_name, last_name, email, age, cartId, admin, style: 'products.css' })
+        res.render('products', { products, prevLink, nextLink, first_name, last_name, email, age, cartId, admin, premium, style: 'products.css' })
     }
     else {
         const pageExists = parseInt(page)
@@ -36,7 +37,7 @@ export const getProducts = async (req, res) => {
             const prevLink = result.hasPrevPage ? `http://localhost:8080/products?page=${result.prevPage}&limit=${result.limit}` : false
             const nextLink = result.hasNextPage ? `http://localhost:8080/products?page=${result.nextPage}&limit=${result.limit}` : false
             const products = result.payload
-            res.render('products', { products, prevLink, nextLink, first_name, last_name, email, age, cartId, admin, style: 'products.css' })
+            res.render('products', { products, prevLink, nextLink, first_name, last_name, email, age, cartId, admin, premium, style: 'products.css' })
         }
     }
 }

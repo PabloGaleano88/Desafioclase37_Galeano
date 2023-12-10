@@ -55,9 +55,9 @@ class ProductManager {
 
     }
 
-    async create(title, description, price, code, category, stock, thumbnail) {
+    async create(title, description, price, code, category, stock, thumbnail, owner) {
         try {
-            return await productRepository.createProduct(title, description, price, code, category, stock, thumbnail)
+            return await productRepository.createProduct(title, description, price, code, category, stock, thumbnail, owner)
         }
         catch (error) {
             return (`Error al intentar agregar el producto`)
@@ -84,20 +84,20 @@ class ProductManager {
 
     async updateProduct(id, updateField, value) {
         try {
-/*          ESTO ES PARA MODIFICAR DESDE THUNDERCLIENT   
-            const fields = Object.keys(updateFields)
-            fields.forEach(element => {
-                if (element !== "title" && element !== "description" && element !== "price" && element !== "code" && element !== "category" && element !== "stock") {
-                    logger.warn(`${element} no es un campo valido por lo tanto no se actualizará`)
-                }
-            }); */
-            return await productRepository.updateProductById(id, updateField,value)
+            /*          ESTO ES PARA MODIFICAR DESDE THUNDERCLIENT   
+                        const fields = Object.keys(updateFields)
+                        fields.forEach(element => {
+                            if (element !== "title" && element !== "description" && element !== "price" && element !== "code" && element !== "category" && element !== "stock") {
+                                logger.warn(`${element} no es un campo valido por lo tanto no se actualizará`)
+                            }
+                        }); */
+            return await productRepository.updateProductById(id, updateField, value)
         }
         catch (error) {
             logger.error(`se ha producido el siguiente error al intentar modificar el campo: ${error}`)
         }
     }
 
-    
+
 }
 export default ProductManager

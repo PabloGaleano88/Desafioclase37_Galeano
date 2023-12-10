@@ -10,7 +10,7 @@ document.getElementById('contenido').addEventListener('click', async function (e
                     'Content-Type': 'application/json',
                 },
             });
-
+            const response_text = await response.text()
             if (response.ok) {
                 Swal.fire({
                     icon: 'success',
@@ -21,7 +21,7 @@ document.getElementById('contenido').addEventListener('click', async function (e
                 Swal.fire({
                     icon: 'error',
                     title: 'Error',
-                    text: 'Hubo un error al agregar el producto al carrito.',
+                    text: `Hubo un error al agregar el producto al carrito.\n${response_text}`,
                 });
             }
         } catch (error) {
@@ -29,7 +29,7 @@ document.getElementById('contenido').addEventListener('click', async function (e
             Swal.fire({
                 icon: 'error',
                 title: 'Error',
-                text: `Hubo un error al agregar el producto al carrito.${cartId}`,
+                text: `Hubo un error al agregar el producto al carrito: ${cartId}`,
             })
         }
     }

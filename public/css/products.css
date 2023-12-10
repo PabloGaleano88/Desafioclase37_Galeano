@@ -76,6 +76,14 @@ button{
     right: 10px;
 }
 
+.admin_products{
+    z-index: 100;
+    height: 25px;
+    position: fixed;
+    top: 0px;
+    right: 245px;
+}
+
 .go_to_chat{
     z-index: 100;
     height: 25px;

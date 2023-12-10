@@ -2,6 +2,7 @@ import CartManager from "../dao/MongoDB/CartManager.js";
 import ProductManager from "../dao/MongoDB/ProductManager.js";
 import { sendMail } from "../services/mailService.js";
 
+
 const cartManager = new CartManager
 const productManager = new ProductManager
 
@@ -17,10 +18,18 @@ export const getCartById = async (req, res) => {
 }
 
 export const addProductToCart = async (req, res) => {
+    let result = ""
     const cid = req.params.cid
     const pid = req.params.pid
-    const result = await cartManager.addProductToCart(cid, pid, 1)
-    res.status(200).send(result)
+    const product = await productManager.findById(pid)
+    if(req.user.email !== product.owner){
+        result = await cartManager.addProductToCart(cid, pid, 1)
+        res.status(200).send(result)
+    }
+    else{
+        result = "No se pude agregar un producto que tu mismo creaste"
+        res.status(403).send(result)
+    }
 }
 
 export const updateProducts = async (req, res) => {

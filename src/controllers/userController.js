@@ -14,6 +14,7 @@ export const loginPassport = async (req, res) => {
     req.session.email = req.user.email
     req.session.age = req.user.age
     req.session.cartId = req.user.cartId._id
+    req.session.role = req.user.role
     req.session.isLogged = true
 
     res.redirect('/products')
@@ -70,6 +71,23 @@ export const passReset = async (req, res) => {
         res.redirect('/login')
     }
     catch (error) {
+
+    }
+}
+
+//el cambio de rol se hace con thunderclient
+export const changeRole = async (req,res) =>{
+    const uid = req.params.uid
+    try{
+        const user = await SessionRepository.findUserById(uid)
+        console.log(user.role)
+        user.role === "premium" ? user.role = "user" : user.role = "premium"
+        await user.save()
+        res.status(200).send(`el usuario cambió su rol a: ${user.role}`)
+    }
+    catch(error){
+        res.status(400).send("error al cambiar el rol del usuario")
+        throw error
 
     }
 }

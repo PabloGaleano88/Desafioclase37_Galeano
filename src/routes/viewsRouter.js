@@ -1,16 +1,12 @@
 import { Router } from "express";
-import ProductManager from '../dao/MongoDB/ProductManager.js'
-import CartManager from "../dao/MongoDB/CartManager.js";
 import publicRoutes from "../middlewares/publicRoutes.js";
 import privateRoutes from "../middlewares/privateRoutes.js";
 import adminRoutes from "../middlewares/adminAuthorization.js"
 import userRoutes from "../middlewares/userAuthorization.js"
 
-const productManager = new ProductManager()
-const cartManager = new CartManager()
-
 import { getProductsJson, getProducts, login, findCart, loggerTest, changePassword } from "../controllers/viewsController.js";
 import { getMockingProducts } from '../controllers/mockingController.js'
+
 
 
 const rtRouter = Router()
@@ -19,7 +15,8 @@ const rtRouter = Router()
 rtRouter.get('/', getProductsJson)
 
 rtRouter.get('/realtimeproducts', adminRoutes, async (req, res) => {
-    res.render('realTimeProducts', { style: 'realTimeProducts.css' })
+    const email = req.session.email
+    res.render('realTimeProducts', { style: 'realTimeProducts.css',email})
 })
 
 rtRouter.get('/chat', userRoutes,(req, res) => {

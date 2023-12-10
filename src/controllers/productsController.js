@@ -30,8 +30,8 @@ export const getProducts = async (req, res) => {
 
 export const addProduct = async (req, res) => {
     try {
-        const { title, description, price, code, category, stock } = req.body
-        if (!req.file || !title || typeof (title) != "string" || !description || !price || typeof (price) != "number" || !code || typeof (code) != "string" || !category || typeof (category) != "string" || !stock || typeof (stock) != "number") {
+        const { title, description, price, code, category, stock} = req.body
+        if (!req.file || !title || !description || !price || !code || !category || !stock) {
             CustomError.createError({
                 name: "Add Product Error",
                 cause: productAddErrorInfo(title, price, code, category, stock),
@@ -39,13 +39,15 @@ export const addProduct = async (req, res) => {
                 code:EErrors.INVALID_DATA_ERROR
             })
         }
+        const owner = req.user.email === "admincoder@coder.com" ? "admin" : req.user.email 
         const thumbnail = req.file.originalname
-        await productManager.create(title, description, price, code, category, stock, thumbnail)
+        await productManager.create(title, description, price, code, category, stock, thumbnail,owner)
         const { payload: products } = await getProducts()
         res.status(200).send(products)
         req.context.socketServer.emit('actualizar_realtimeproducts', products)
     }
     catch (error) {
+        console.log(error)
         res.status(400).send(error)
     }
 }
@@ -65,16 +67,19 @@ export const updateProduct = async (req, res) => {
 
 export const deleteProduct = async (req, res) => {
     const id = req.params.pid
-    try {
-        await productManager.delete(id)
-        const { payload: products } = await getProducts()
-        req.context.socketServer.emit('actualizar_realtimeproducts', products)
-        res.status(200).send(products)
-    }
-    catch (error) {
-        logger.error(error)
-        res.status(400).send(error)
-
+    const productById = await productManager.findById(id)
+    if(req.session.role === "admin" || req.session.email === productById.owner){
+        try {
+            await productManager.delete(id)
+            const { payload: products } = await getProducts()
+            req.context.socketServer.emit('actualizar_realtimeproducts', products)
+            res.status(200).send(products)
+        }
+        catch (error) {
+            logger.error(error)
+            res.status(400).send(error)
+    
+        }
     }
 }
 

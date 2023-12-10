@@ -1,6 +1,6 @@
 import { Router } from "express";
 import passport from 'passport'
-import { loginPassport, registerPassport, logout, githubLogin, passResetReq, passReset } from "../controllers/userController.js";
+import { loginPassport, registerPassport, logout, githubLogin, passResetReq, passReset, changeRole } from "../controllers/userController.js";
 
 const uRouter = Router()
 
@@ -17,5 +17,7 @@ uRouter.get('/githubcallback', passport.authenticate('github', { failureRedirect
 uRouter.post('/passresetreq',passResetReq)
 
 uRouter.post('/passreset/:rid',passReset)
+
+uRouter.put('/users/premium/:uid',changeRole)
 
 export default uRouter

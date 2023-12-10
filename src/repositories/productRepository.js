@@ -19,7 +19,7 @@ class productRepository{
         }
     }
     
-    async createProduct(title, description, price, code, category, stock, thumbnail) {
+    async createProduct(title, description, price, code, category, stock, thumbnail,owner) {
         try{
             const producto = await productsModel.create({
                 title,
@@ -29,6 +29,7 @@ class productRepository{
                 status: true,
                 category,
                 stock,
+                owner,
                 thumbnail: [`/static/thumbnails/${thumbnail}`],
             })
             return producto

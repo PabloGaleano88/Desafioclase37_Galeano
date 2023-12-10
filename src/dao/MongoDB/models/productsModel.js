@@ -20,6 +20,10 @@ const productsSchema = new mongoose.Schema({
         unique: true,
         required: true
     },
+    owner:{
+        type:String,
+        default: 'admin'
+    },
     status:{
         type: Boolean
     },

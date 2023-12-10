@@ -1,3 +1,14 @@
+<div class="nav_buttons">
+    <div class="go_back">
+        <a href="http://localhost:8080/products"><button type="button" class="btn btn-warning">Volver</button></a>
+    </div>
+</div>
+<div class="email_position">
+    <h6>
+        {{email}}
+    </h6>
+</div>
+
 <div class="formulario_add">
     <form id="add_product" method="">
         <h2>Agregar Producto</h2>
@@ -15,12 +26,11 @@
         </div>
         <div class="form-group">
             <label for="exampleInputEmail1">Categoría</label>
-            <input type="test" class="form-control" name="category"
-                placeholder="Categoría">
+            <input type="test" class="form-control" name="category" placeholder="Categoría">
         </div>
         <div class="form-group">
             <label for="exampleInputPassword1">Stock</label>
-            <input type="number"  class="form-control" name="stock" placeholder="Stock">
+            <input type="number" class="form-control" name="stock" placeholder="Stock">
         </div>
         <div class="form-group">
             <label for="exampleFormControlTextarea1">Descripción</label>
@@ -33,16 +43,16 @@
         <button type="submit" value="submit" class="btn btn-primary">Agregar</button>
     </form>
 </div>
-    <div class="formulario_del">
-        <h2>ID del producto a eliminar</h2>
-        <form id="del_product" method="">
-            <div class="form-group">
-                <label for="numberinput">ID</label>
-                <input type="text" min=0 class="form-control" name="id" placeholder="Id del producto a eliminar">
-            </div>
-            <button type="submit" class="btn btn-primary">Eliminar</button>
-        </form>
-    </div>
+<div class="formulario_del">
+    <h2>ID del producto a eliminar</h2>
+    <form id="del_product" method="">
+        <div class="form-group">
+            <label for="numberinput">ID</label>
+            <input type="text" min=0 class="form-control" name="id" placeholder="Id del producto a eliminar">
+        </div>
+        <button type="submit" class="btn btn-primary">Eliminar</button>
+    </form>
+</div>
 
 
 
@@ -50,5 +60,6 @@
 
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/static/js/realTimeProducts.js"></script>
